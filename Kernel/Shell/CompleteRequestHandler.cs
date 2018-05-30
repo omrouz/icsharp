@@ -6,19 +6,26 @@ namespace iCSharp.Kernel.Shell
     using System.Collections.Generic;
     using Common.Serializer;
     using iCSharp.Messages;
+    using iCSharp.Kernel.ScriptEngine;
     using NetMQ.Sockets;
     using iCSharp.Kernel.Helpers;
     using System.Text.RegularExpressions;
+
+    
+
     public class CompleteRequestHandler : IShellMessageHandler
     {
         private ILog logger;
         private readonly IMessageSender messageSender;
+        private IReplEngine repl;
 
-        public CompleteRequestHandler(ILog logger, IMessageSender messageSender)
+        public CompleteRequestHandler(ILog logger, IMessageSender messageSender, IReplEngine repl)
         {
             this.logger = logger;
             this.messageSender = messageSender;
+            this.repl = repl;
         }
+
         /*
          * TWO CASES 
          * - USE CODEMIRRROR AUTOCOMPLETION (shouldn't be hard to integrate, lacks some features, switches calculations to client side)
@@ -167,11 +174,6 @@ namespace iCSharp.Kernel.Shell
             {
                 this.logger.Info(matches_[j].Name);
             }
-
-
-
-            matches_.Add(new CompleteReplyMatch() { Name = "newcode" + newCode });
-            matches_.Add(new CompleteReplyMatch() { Name = "code" + code });
 
             // string txt = completeRequest.Text;
             // string line = completeRequest.Line;

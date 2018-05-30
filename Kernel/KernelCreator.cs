@@ -135,7 +135,7 @@ namespace iCSharp.Kernel
             {
                 if (this._completeRequestHandler == null)
                 {
-                    this._completeRequestHandler = new CompleteRequestHandler(this._logger, this.MessageSender);
+                    this._completeRequestHandler = new CompleteRequestHandler(this._logger, this.MessageSender, this.ReplEngine);
                 }
 
                 return _completeRequestHandler;
